@@ -1,8 +1,13 @@
 ##Files below will not commit##
 *.h5
 *.weights
+*.jpg
+*.mp4
+
 .ipynb_checkpoints/
 .idea/
-.jpg
+
+
 __pycache__/
 lanenet_label/
+scene_img/
