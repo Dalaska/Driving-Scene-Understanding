@@ -3,6 +3,7 @@
 *.weights
 *.jpg
 *.mp4
+*.csv
 
 .ipynb_checkpoints/
 .idea/
@@ -11,3 +12,5 @@
 __pycache__/
 lanenet_label/
 scene_img/
+data/
+data_bk/

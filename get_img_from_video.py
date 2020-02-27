@@ -1,14 +1,16 @@
-
+'''
+extract image from video
+'''
 import cv2
 import os
 #要提取视频的文件名，隐藏后缀
 #在这里把后缀接上
-video_path = 'scene.mp4'
+video_path = 'city.mp4'
 times=0
 #提取视频的频率，每25帧提取一个
-frameFrequency = 25
+frameFrequency = 10
 #输出图片到当前目录vedio文件夹下
-outPutDirName='scene_img/'
+outPutDirName='./city/'
 if not os.path.exists(outPutDirName):
     #如果文件目录不存在则创建目录
     os.makedirs(outPutDirName) 
