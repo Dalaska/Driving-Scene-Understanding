@@ -1,6 +1,5 @@
-# save scene data into csv
+
 import pandas as pd
-import csv
 
 class Scene():
     def __init__(self,video_id,time_start,time_end,tags,description):
@@ -15,12 +14,15 @@ class Scene():
                'time_end':[self.time_end],'tags':[self.tags],\
                'description':description}
         frame = pd.DataFrame(data)
-        frame.to_csv(file_path, mode='a',index=False,header=False)#不将索引和列名写入数据 # 追加写入
+        frame.to_csv(file_path, mode='a',index=False,encoding="gb2312")#不将索引和列名写入数据 # 追加写入
 
+# ==========================================================
+
+# save scene data into csv
 video_id = 'DR2330322'
 time_start = 11.1
 time_end = 20.5
-tags = ['ACC','curv',]# 'AEB','straight'
+tags = ['ACC','目标误识别',]# 'AEB','straight'
 description = 'good dat'
 
 scene = Scene(video_id,time_start,time_end,tags,description)

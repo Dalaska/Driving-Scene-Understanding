@@ -6,44 +6,20 @@ Created on Mon Mar 23 07:33:50 2020
 @author: DFTC_ZHANGDR
 """
 import pandas as pd
+from scene import Scene
+# add scene to test
 
-
-class Scene():
-    def __init__(self,video_id,time_start,time_end,tag,description):
-        self.video_id = video_id
-        self.time_start = time_start
-        self.time_end = time_end
-        self.id = hash(str(time_start+time_end))
-        self.tag = tag
-        self.description = description
-        
-    def save(self,file_path):
-        #
-        data ={'id':[self.video_id],'time_start':[self.time_start],\
-               'time_end':[self.time_end],'tag':[self.tag],\
-               'description':description}
-        frame = pd.DataFrame(data)
-        frame.to_csv(file_path, mode='a',index=False,header=False)#不将索引和列名写入数据 # 追加写入
-        
-# show structure
-def show_struct(dic):
+    
+# show test
+def show_test(dic):
     print('')
-    print('.structure')
-    for key1 in list(dic.keys()):
+    print('.test')
+    for key1 in list(dic.keys()): # 一级目录
         print('├──',key1)
-        for key2 in list(dic[key1].keys()):
+        for key2 in list(dic[key1].keys()): # 二级目录
             print('│  ',' └──',key2)
- 
-# get test content
-def group_testcase(dic,scene):
-    for key1 in list(dic.keys()):
-        for key2 in list(dic[key1].keys()):
-            tag_needed = [key1,key2]
-            if set(tag_needed) <= set(scene.tag): # has all requiredd tags
-                dic[key1][key2].append(scene)
-    return(dic)
           
-# show test dictionary
+# show test case
 def show_testcase(dic):
     print('.test_data')
     for key1 in list(dic.keys()):
@@ -52,7 +28,7 @@ def show_testcase(dic):
             print('│  ',' └──',key2)
             for scene3 in dic[key1][key2]:
                 print('│       ',' └──',scene3.video_id,\
-                      scene3.time_start,'-',scene3.time_end,scene3.tag)
+                      scene3.time_start,'-',scene3.time_end,scene3.tag,scene3.desc)
                          
 # get test list
 def get_testlist(dic):
@@ -66,36 +42,42 @@ def get_testlist(dic):
     return(test_list,test_videoid)    
 
 # find test case
-def find_testcase(dic,data):
+def add_scene2test(dic,data):
     for row in data.iterrows():
+        # get data
         video_id = row[1][ 'video_id']
         time_start = row[1][ 'time_start']
         time_end = row[1][ 'time_end']
         tag = eval(row[1][ 'tag'])# 输出每一行
-        description = ''
+        desc = row[1][ 'desc']
         scene = Scene(video_id, time_start, time_end,\
-                      tag,description)    
-        dic_dat = group_testcase(dic,scene)
-    return(dic_dat)
+                      tag,desc)  
+
+        # add scne to test case  
+        for key1 in list(dic.keys()): # 一级目录
+            for key2 in list(dic[key1].keys()): # 二级目录
+                tag_needed = [key1,key2]
+                if set(tag_needed) <= set(scene.tag): # has all requiredd tags
+                    dic[key1][key2].append(scene)
+    return(dic)
 
 #===========================================================================
 # test example
-dic = {'ACC':{'straight':[],\
+dic = {'ACC':{'目标误识别':[],\
               '弯道':[]},\
-        'AEB':{'弯道':[],\
-               'curv':[]}}
+        'AEB':{'车辆':[],\
+               '行人':[]}}
             
 # show structure
-show_struct(dic)                        
+show_test(dic)                        
 # read csv
-
-data = pd.read_csv("log.csv") 
+data = pd.read_csv("log.csv",encoding = "gb2312") 
 
 # show data
 data.head()
 
 # find test case 
-dic_dat = find_testcase(dic,data)
+dic_dat = add_scene2test(dic,data)
 
 show_testcase(dic_dat)  
 
@@ -105,3 +87,5 @@ test_list,test_videoid = get_testlist(dic_dat)
 df_testvideo = pd.DataFrame(test_videoid) 
 file_path = 'test_list.csv'
 df_testvideo.to_csv(file_path,index=False,header=False)
+
+pass
