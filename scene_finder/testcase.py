@@ -1,5 +1,21 @@
 import pandas as pd
-from scene import Scene
+
+class Scene():
+    def __init__(self,video_id,time_start,time_end,tag,desc):
+        self.video_id = video_id
+        self.time_start = time_start
+        self.time_end = time_end
+        self.tag = tag
+        self.desc = desc
+    def save(self,file_path):
+        data ={'video_id':[self.video_id],\
+               'time_start':[self.time_start],\
+               'time_end':[self.time_end],\
+               'tag':[self.tag],\
+               'desc':[self.desc]}   
+        frame = pd.DataFrame(data) # make pandas data frame
+        frame.to_csv(file_path, mode='a',index = False,\
+            header = False, encoding = "gb2312")#不将索引和列名写入数据 # 追加写入
 
 class Testcase():
     def __init__(self,test,dat):
@@ -7,7 +23,7 @@ class Testcase():
         self.dat = dat
 
     # show test        
-    def test_content(self):
+    def show_test(self):
         print('.test')
         for key1 in list(self.test.keys()): # 一级目录
             print('├──',key1)
@@ -34,7 +50,7 @@ class Testcase():
         
     # show test case
     def show_testcase(self):
-        print('.test_data')
+        print('.test_case')
         for key1 in list(self.test.keys()):
             print('├──',key1)
             for key2 in list(self.test[key1].keys()):
@@ -42,18 +58,16 @@ class Testcase():
                 for scene3 in self.test[key1][key2]:
                     print('│       ',' └──',scene3.video_id,\
                         scene3.time_start,'-',scene3.time_end,scene3.tag,scene3.desc)
+    
+        # get test list
+    def get_testlist(self):
+        test_list = [] 
+        test_videoid = []
+        for key1 in list(self.test.keys()):
+            for key2 in list(self.test[key1].keys()):
+                for elem3 in self.test[key1][key2]:
+                    test_list.append(elem3)
+                    test_videoid.append(elem3.video_id)
+        return(test_list,test_videoid)  
   
 
-#=========================================
-reg_test = {'ACC':{'目标误识别':[],\
-              '弯道':[]},\
-            'AEB':{'车辆':[],\
-                '行人':[]}}
-# read csv
-dat = pd.read_csv("log.csv",encoding = "gb2312") 
-
-testcase1 = Testcase(reg_test,dat)
-testcase1.test_content()
-testcase1.add_scene2test()
-testcase1.show_testcase()
-pass
