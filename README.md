@@ -13,7 +13,7 @@
 
 - 运行 multi_iou.py: 从‘obj_list.csv’中读取测试的 bounding box 结果，从‘labels.csv’中读取 bounding box的真值。计算每个目标的 IOU。
 
-![img](/data/marked_img.png)
+![img](https://files-cdn.cnblogs.com/files/dalaska/labeled.bmp)
 
 ## 目录
 
