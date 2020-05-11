@@ -31,8 +31,9 @@ yolov3 的网络结构及权重文件
 
 - obj_list.csv：目标识别结果
 
-<p>//framecout,id,type,left,top,right,bottom,confidence
-0,0,person,3,197,205,547,0.9818541407585144<p>
+```framecout,id,type,left,top,right,bottom,confidence
+0,0,person,3,197,205,547,0.9818541407585144
+```
 
 - lane_list.csv：车道线识别结果
 
@@ -41,12 +42,14 @@ yolov3 的网络结构及权重文件
 - labels.csv：目标真值列表
 
 - detector.py: 创建有一个 detector 对象。
-
-<p>detect =
+```
+detect =
 detector.detector("yolov3","weights/yolov3.cfg","weights/yolov3.weights","w
-eights/coco.names")<p>
-
-<p>objlist = detect.detect(frame)<p>
+eights/coco.names")
+objlist = detect.detect(frame)
+```
 
 调用 detect 方法就可以得到 objlist,里面存放的是 Obj 对象。
 然后就会记录结果到指定的 csv 文件。
+
+https://files-cdn.cnblogs.com/files/dalaska/obj_list.bmp
